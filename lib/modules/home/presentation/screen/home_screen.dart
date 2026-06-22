@@ -67,9 +67,6 @@ class _HomeScreenState extends State<HomeScreen> {
     // Initialize with current values
     _currentUserType = userTypeStream.currentUserType;
 
-    print(
-      'HomeScreen: Initial user type: $_currentUserType, isGuest: $_isGuest',
-    );
 
     // Listen to user type changes
     _userTypeSubscription = userTypeStream.listenToUserTypeChanges((userType) {

@@ -27,7 +27,6 @@ class DateTimeHelper {
     return months[month];
   }
   String generateTransactionsId(String currentTime) {
-    // String now = DateTime.now().toIso8601String();
     return currentTime.replaceAll(':', '').replaceAll('.', '').replaceAll('-', '');
   }
 }

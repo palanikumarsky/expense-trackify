@@ -100,7 +100,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
         }
       }
     } catch (error) {
-      print('Error loading user data from database: $error');
     }
   }
 

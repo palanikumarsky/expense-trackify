@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 
 void customAddAccountAlertDialog({
   required BuildContext context,
-  // required VoidCallback onBlockTapped,
 }) {
   showDialog(
     context: context,
@@ -123,7 +122,6 @@ void customAddAccountAlertDialog({
                         ],
                       ),
                     ),
-                    // const SizedBox(height: 30,),
                   ],
                 ),
               ),

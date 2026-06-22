@@ -100,7 +100,6 @@ class SyncService {
       // Add each new transaction as a separate document
       final transactionsCollection = docRef.collection('transactions');
       for (final entry in transactionsMap.entries) {
-        print("Uploading new transaction: ${entry.key}");
         await transactionsCollection.doc(entry.key).set(entry.value.toMap());
       }
       
@@ -110,7 +109,6 @@ class SyncService {
         syncedCount: transactionsMap.length,
       );
     } catch (error) {
-      print('Error syncing to ExpenseModelV2: $error');
       return SyncResult(
         success: false,
         message: 'Failed to sync to ExpenseModelV2: $error',
@@ -156,7 +154,6 @@ class SyncService {
       
       return transactionsMap;
     } catch (error) {
-      print('Error downloading transactions from Firebase: $error');
       return {};
     }
   }
@@ -222,7 +219,6 @@ class SyncService {
         newTransactions: newTransactions,
       );
     } catch (error) {
-      print('Error getting sync info: $error');
       return SyncInfo(
         success: false,
         message: 'Failed to get sync info: $error',
@@ -329,7 +325,6 @@ class SyncService {
         syncedCount: totalSynced,
       );
     } catch (error) {
-      print('Error syncing from ExpenseModelV2: $error');
       return SyncResult(
         success: false,
         message: 'Failed to sync from ExpenseModelV2: $error',
@@ -396,7 +391,6 @@ class SyncService {
         syncedCount: transactionsMap.length,
       );
     } catch (error) {
-      print('Error syncing to ExpenseModelV2: $error');
       return SyncResult(
         success: false,
         message: 'Failed to sync to ExpenseModelV2: $error',
@@ -438,7 +432,6 @@ class SyncService {
       );
 
     } catch (error) {
-      print('Error creating transaction collection: $error');
       return SyncResult(
         success: false,
         message: 'Failed to create collection: $error',
@@ -476,7 +469,6 @@ class SyncService {
       }).toList();
 
     } catch (error) {
-      print('Error getting user collections: $error');
       return [];
     }
   }
@@ -561,7 +553,6 @@ class SyncService {
         syncedCount: inserted,
       );
     } catch (error) {
-      print('Error in syncIfLocalEmptyAndCloudHasData: $error');
       return SyncResult(
         success: false,
         message: 'Failed to sync from cloud: $error',
@@ -649,7 +640,6 @@ class SyncService {
         syncedCount: 1,
       );
     } catch (error) {
-      print('Error updating transaction in Firebase: $error');
       return SyncResult(
         success: false,
         message: 'Failed to update transaction in cloud: $error',
@@ -726,7 +716,6 @@ class SyncService {
         syncedCount: 1,
       );
     } catch (error) {
-      print('Error deleting transaction from Firebase: $error');
       return SyncResult(
         success: false,
         message: 'Failed to delete transaction from cloud: $error',

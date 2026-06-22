@@ -28,7 +28,6 @@ class UserTypeStream {
     _currentUserType = prefs.getString(_userTypeKey) ?? AppConstants.guest;
     // Emit initial value
     _userTypeController.add(_currentUserType!);
-    print('UserTypeStream initialized - UserType: $_currentUserType');
   }
 
   /// Get current user type
@@ -68,7 +67,6 @@ class UserTypeStream {
         timestamp: DateTime.now(),
       ));
     }
-    print('UserTypeStream: User type updated - Type: $userType');
   }
 
   /// Check if user is currently authenticated
@@ -91,7 +89,6 @@ class UserTypeStream {
   void dispose() {
     _userTypeController.close();
     _userTypeChangeController.close();
-    print('UserTypeStream disposed');
   }
 
   /// Example: Listen to authentication state changes

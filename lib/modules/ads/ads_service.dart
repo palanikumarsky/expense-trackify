@@ -10,10 +10,6 @@ class AdsService {
   static const String _bannerAdUnitId = 'ca-app-pub-3940256099942544/6300978111'; // Test ID
   static const String _interstitialAdUnitId = 'ca-app-pub-3940256099942544/1033173712'; // Test ID
   
-  // Production ad unit IDs (uncomment and replace when ready for production)
-  // static const String _bannerAdUnitId = 'your-production-banner-ad-unit-id';
-  // static const String _interstitialAdUnitId = 'your-production-interstitial-ad-unit-id';
-
   bool _isInitialized = false;
 
   /// Initialize Google Mobile Ads

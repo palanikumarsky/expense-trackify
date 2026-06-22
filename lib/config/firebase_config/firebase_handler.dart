@@ -30,16 +30,3 @@ class FirebaseHandler {
         FirebaseAnalyticsObserver(analytics: firebaseAnalytics);
   }
 }
-
-//TODO: Created as Singleton Class
-// class FirebaseHandler {
-//   static FirebaseAnalytics analytics = FirebaseAnalytics.instance;
-//   static FirebaseAnalyticsObserver observer =
-//       FirebaseAnalyticsObserver(analytics: analytics);
-//
-//   Future<FirebaseApp> initializeFirebase() async {
-//     return await Firebase.initializeApp(
-//         //options: DefaultFirebaseOptions.currentPlatform,
-//         );
-//   }
-// }

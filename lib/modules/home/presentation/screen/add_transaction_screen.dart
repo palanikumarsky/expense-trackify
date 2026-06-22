@@ -190,7 +190,6 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
       );
       return;
     }
-    print("Validation success....!!!!!");
     await _transactionDao.createTransaction(TransactionsCompanion.insert(
       id: DateTimeHelper().generateTransactionsId(DateTime.now().toIso8601String()),
       description: _descriptionController.text,

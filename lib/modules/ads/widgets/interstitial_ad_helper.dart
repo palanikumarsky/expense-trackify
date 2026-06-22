@@ -22,14 +22,11 @@ class InterstitialAdHelper {
       
       await AdsService().showInterstitialAd(
         onAdLoaded: () {
-          print('Interstitial ad loaded for action: $actionName');
         },
         onAdFailedToLoad: () {
-          print('Interstitial ad failed to load for action: $actionName');
           onAdFailed?.call();
         },
         onAdClosed: () {
-          print('Interstitial ad closed for action: $actionName');
           onAdShown?.call();
         },
       );
@@ -44,14 +41,11 @@ class InterstitialAdHelper {
   }) async {
     await AdsService().showInterstitialAd(
       onAdLoaded: () {
-        print('Interstitial ad loaded for action: $actionName');
       },
       onAdFailedToLoad: () {
-        print('Interstitial ad failed to load for action: $actionName');
         onAdFailed?.call();
       },
       onAdClosed: () {
-        print('Interstitial ad closed for action: $actionName');
         onAdShown?.call();
       },
     );

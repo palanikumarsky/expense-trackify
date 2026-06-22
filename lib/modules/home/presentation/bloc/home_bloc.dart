@@ -131,7 +131,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       emit(const DashboardCleared());
       add(InitializeDefaultData());
     } catch (error) {
-      print('Error clearing dashboard data: $error');
       emit(HomeError('Failed to clear dashboard data: $error'));
     }
   }
@@ -157,7 +156,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       final stats = await DatabaseService.getDatabaseStats();
       emit(DatabaseStatsLoaded(stats: stats));
     } catch (error) {
-      print('Error getting database stats: $error');
       emit(HomeError('Failed to get database statistics: $error'));
     }
   }
@@ -171,13 +169,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     }
     
     if (dateRange == null) {
-      // return transactions;
-      if (dateRange == null) {
-        final now = DateTime.now();
-        final firstDayOfMonth = DateTime(now.year, now.month, 1);
-        final lastDayOfMonth = DateTime(now.year, now.month + 1, 0);
-        dateRange = DateTimeRange(start: firstDayOfMonth, end: lastDayOfMonth);
-      }
+      final now = DateTime.now();
+      final firstDayOfMonth = DateTime(now.year, now.month, 1);
+      final lastDayOfMonth = DateTime(now.year, now.month + 1, 0);
+      dateRange = DateTimeRange(start: firstDayOfMonth, end: lastDayOfMonth);
     }
     
     return transactions.where((transaction) {
@@ -196,7 +191,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       await _initializeDefaultCategories();
       
     } catch (error) {
-      print('Error initializing default data: $error');
     }
   }
 
@@ -215,14 +209,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       // Add missing modes
       for (final modeName in missingModes) {
         await _modeDao.createMode(ModesCompanion.insert(name: modeName));
-        print('Added default mode: $modeName');
       }
       
       if (missingModes.isNotEmpty) {
-        print('Initialized ${missingModes.length} default payment modes');
       }
     } catch (error) {
-      print('Error initializing default modes: $error');
     }
   }
 
@@ -241,14 +232,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       // Add missing categories
       for (final categoryName in missingCategories) {
         await _categoryDao.createCategory(CategoriesCompanion.insert(name: categoryName));
-        print('Added default category: $categoryName');
       }
       
       if (missingCategories.isNotEmpty) {
-        print('Initialized ${missingCategories.length} default categories');
       }
     } catch (error) {
-      print('Error initializing default categories: $error');
     }
   }
 }

@@ -53,7 +53,6 @@ class _CreateTransactionScreenState extends State<CreateTransactionScreen> {
         child: BlocListener<CreateTransactionsBloc, CreateTransactionsState>(
           listener: (context, state) {
             if (state is TransactionSaved) {
-              print("Transaction saved successfully");
               // Show success message
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
@@ -63,7 +62,6 @@ class _CreateTransactionScreenState extends State<CreateTransactionScreen> {
               );
 
               // Notify sync immediately
-              print("Notifying sync immediately");
               SyncEventBus().notifySync();
 
               // Navigate to home screen with index 0 to force refresh

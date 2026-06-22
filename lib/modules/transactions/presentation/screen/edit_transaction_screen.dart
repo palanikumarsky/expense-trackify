@@ -186,7 +186,6 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
         Navigator.of(context).pop(updatedTransaction);
       }
     } catch (error) {
-      print("error : $error");
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Error updating transaction: $error'),

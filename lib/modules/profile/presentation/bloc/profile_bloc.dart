@@ -88,9 +88,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
           // Initialize default modes and categories for new users
           await DatabaseHelper().initializeDefaultData();
           
-          print('User data saved to database and Firebase successfully');
         } catch (dbError) {
-          print('Error saving user data to database: $dbError');
           // Continue with login even if database save fails
         }
 
@@ -129,10 +127,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         emit(FailureState(errorMessage: "email not selected"));
       }
     } on firebase_auth.FirebaseAuthException catch (error) {
-      print(error);
       emit(FailureState(errorMessage: AppConstants.somethingWentWrong));
     } catch (error) {
-      print(error);
       emit(FailureState(errorMessage: AppConstants.somethingWentWrong));
     }
   }
@@ -211,7 +207,6 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         emit(SyncInfoLoaded(syncInfo: syncInfo));
       }
     } catch (error) {
-      print('Error in sync process: $error');
       emit(SyncFailure(errorMessage: 'Sync failed: $error'));
     }
   }
@@ -249,7 +244,6 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         emit(SyncFailure(errorMessage: 'Sync failed: ${uploadResult.message}'));
       }
     } catch (error) {
-      print('Error in sync process: $error');
       emit(SyncFailure(errorMessage: 'Sync failed: $error'));
     }
   }
@@ -266,9 +260,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         await _transactionDao.updateTransaction(updatedTransaction);
       }
       
-      print('Updated ${unsyncedTransactions.length} transactions as synced');
     } catch (error) {
-      print('Error updating transactions as synced: $error');
       // Don't throw error to avoid breaking the sync flow
     }
   }
@@ -287,7 +279,6 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         selectedAccount: selectedAccount ?? "",
       ));
     } catch (error) {
-      print('Error getting database stats: $error');
       emit(FailureState(errorMessage: 'Failed to get models. Please try again...!!!'));
     }
   }
@@ -302,7 +293,6 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       final models = await expenseAccountDao.getExpensesAccounts();
       emit(ModelCreateSuccess(modelList: models));
     } catch (error) {
-      print('Error creating model: $error');
       emit(FailureState(errorMessage: 'Failed to create model. Please try again...!!!'));
     }
   }

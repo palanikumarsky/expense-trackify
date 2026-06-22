@@ -122,7 +122,6 @@ class CreateTransactionsBloc
       return;
     }
     try {
-      print("Started Saving the transaction");
       await _transactionDao.createTransaction(
         TransactionsCompanion.insert(
           id: DateTimeHelper().generateTransactionsId(
@@ -138,7 +137,6 @@ class CreateTransactionsBloc
       );
       emit(TransactionSaved());
     } catch (e) {
-      print("Error While Saving the transaction");
       emit(FailureState(errorMessage: 'Error saving transaction: $e'));
     }
   }

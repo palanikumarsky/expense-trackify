@@ -44,7 +44,6 @@ class _LoginScreenState extends State<LoginScreen> {
           listener: (context, state) {
             if (state is LoggedInSuccessful) {
               CustomProgressBar(context).hideLoadingIndicator();
-              print("LoggedInSuccessful");
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(
                   builder:

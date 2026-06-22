@@ -18,7 +18,6 @@ class DatabaseHelper {
       await initializeDefaultCategories();
 
     } catch (error) {
-      print('Error initializing default data: $error');
     }
   }
 
@@ -37,14 +36,11 @@ class DatabaseHelper {
       // Add missing modes
       for (final modeName in missingModes) {
         await _modeDao.createMode(ModesCompanion.insert(name: modeName));
-        print('Added default mode: $modeName');
       }
 
       if (missingModes.isNotEmpty) {
-        print('Initialized ${missingModes.length} default payment modes');
       }
     } catch (error) {
-      print('Error initializing default modes: $error');
     }
   }
 
@@ -74,14 +70,11 @@ class DatabaseHelper {
       // Add missing categories
       for (final categoryName in missingCategories) {
         await _categoryDao.createCategory(CategoriesCompanion.insert(name: categoryName));
-        print('Added default category: $categoryName');
       }
 
       if (missingCategories.isNotEmpty) {
-        print('Initialized ${missingCategories.length} default categories');
       }
     } catch (error) {
-      print('Error initializing default categories: $error');
     }
   }
 
@@ -94,9 +87,7 @@ class DatabaseHelper {
       // Clear sync timestamp
       await Prefs.clearLastSyncTimestamp();
 
-      print('Local database data cleared successfully');
     } catch (error) {
-      print('Error clearing local database data: $error');
       // Don't throw error to avoid breaking the sign-out flow
     }
   }

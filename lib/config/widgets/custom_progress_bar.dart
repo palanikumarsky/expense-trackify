@@ -48,19 +48,6 @@ class LoadingIndicator extends StatelessWidget {
       onWillPop: () async => false,
       child: Center(
         key: const Key(loadingDialogKey),
-        // child: Gif(
-        //   image: AssetImage("assets/gif/loading.gif"),
-        //   // controller: _controller,
-        //   // if duration and fps is null, original gif fps will be used.
-        //   //fps: 30,
-        //   //duration: const Duration(seconds: 3),
-        //   autostart: Autostart.loop,
-        //   placeholder: (context) => const Text('Loading...'),
-        //   onFetchCompleted: () {
-        //     // _controller.reset();
-        //     // _controller.forward();
-        //   },
-        // ),
         child:
             Platform.isAndroid
                 ? CircularProgressIndicator(color: AppColors.deepPurpleColor)

@@ -238,7 +238,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
           );
         }
       }
-      print('Error clearing data: $error');
     }
   }
 
@@ -251,7 +250,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
       await _initializeDefaultCategories();
       
     } catch (error) {
-      print('Error initializing default data: $error');
     }
   }
 
@@ -270,14 +268,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
       // Add missing modes
       for (final modeName in missingModes) {
         await _modeDao.createMode(ModesCompanion.insert(name: modeName));
-        print('Added default mode: $modeName');
       }
       
       if (missingModes.isNotEmpty) {
-        print('Initialized ${missingModes.length} default payment modes');
       }
     } catch (error) {
-      print('Error initializing default modes: $error');
     }
   }
 
@@ -296,14 +291,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
       // Add missing categories
       for (final categoryName in missingCategories) {
         await _categoryDao.createCategory(CategoriesCompanion.insert(name: categoryName));
-        print('Added default category: $categoryName');
       }
       
       if (missingCategories.isNotEmpty) {
-        print('Initialized ${missingCategories.length} default categories');
       }
     } catch (error) {
-      print('Error initializing default categories: $error');
     }
   }
 

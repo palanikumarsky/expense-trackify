@@ -116,7 +116,6 @@ class TransactionsBloc extends Bloc<TransactionsEvent, TransactionsState> {
       emit(const DashboardCleared());
       add(LoadTransactions());
     } catch (error) {
-      print('Error clearing dashboard data: $error');
       emit(TransactionsError('Failed to clear dashboard data: $error'));
     }
   }
@@ -144,7 +143,6 @@ class TransactionsBloc extends Bloc<TransactionsEvent, TransactionsState> {
       final stats = await DatabaseService.getDatabaseStats();
       emit(DatabaseStatsLoaded(stats: stats));
     } catch (error) {
-      print('Error getting database stats: $error');
       emit(TransactionsError('Failed to get database statistics: $error'));
     }
   }

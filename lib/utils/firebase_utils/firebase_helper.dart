@@ -23,7 +23,6 @@ class FireStoreService {
         await usersCollection.doc(user.userId).set(user.toMap());
       }
     } catch (error) {
-      print('Error creating/updating Firebase user profile: $error');
       // Don't throw error to avoid breaking the sign-in flow
     }
   }
@@ -34,9 +33,7 @@ class FireStoreService {
       await usersCollection.doc(userUid).update({
         'isActive': false,
       });
-      print('Firebase user profile deactivated successfully for UID: $userUid');
     } catch (error) {
-      print('Error deactivating Firebase user profile: $error');
       // Don't throw error to avoid breaking the sign-out flow
     }
   }

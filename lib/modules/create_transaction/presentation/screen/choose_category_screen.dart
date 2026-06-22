@@ -36,7 +36,6 @@ class _ChooseCategoryScreenState extends State<ChooseCategoryScreen> {
 
   Future<void> _loadCategories() async {
     final categories = await _categoryDao.getCategories();
-    print("Loading Categories");
     setState(() {
       categoryList = categories;
     });
