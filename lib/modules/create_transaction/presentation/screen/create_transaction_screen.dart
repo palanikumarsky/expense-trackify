@@ -12,7 +12,6 @@ import 'package:expensetrackify/constants/styles.dart';
 import 'package:expensetrackify/constants/app_constants.dart';
 import 'package:intl/intl.dart';
 import 'package:expensetrackify/utils/transaction_helper.dart';
-import 'package:expensetrackify/utils/sync_event_bus.dart';
 
 class CreateTransactionScreen extends StatefulWidget {
   const CreateTransactionScreen({super.key});
@@ -60,9 +59,6 @@ class _CreateTransactionScreenState extends State<CreateTransactionScreen> {
                   backgroundColor: Colors.green,
                 ),
               );
-
-              // Notify sync immediately
-              SyncEventBus().notifySync();
 
               // Navigate to home screen with index 0 to force refresh
               Navigator.pushReplacement(

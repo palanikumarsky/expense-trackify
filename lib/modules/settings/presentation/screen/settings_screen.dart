@@ -26,8 +26,6 @@ import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 import 'package:expensetrackify/utils/transaction_helper.dart';
 import 'package:expensetrackify/modules/dao/user_dao.dart';
-import 'package:expensetrackify/utils/sync_event_bus.dart';
-import 'dart:async';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -43,7 +41,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
   final UserDao _userDao = UserDao(appDatabase);
   List<dynamic> _modes = [];
   List<dynamic> _categories = [];
-  StreamSubscription? _syncSubscription;
   String buildNumber = "";
   String versionNumber = "";
 
@@ -51,18 +48,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
   void initState() {
     super.initState();
     _loadData();
-    _setupSyncListener();
   }
 
-  void _setupSyncListener() {
-    _syncSubscription = SyncEventBus().onSync.listen((_) {
-      _loadData();
-    });
-  }
 
   @override
   void dispose() {
-    _syncSubscription?.cancel();
     super.dispose();
   }
 
@@ -206,8 +196,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
       // Reload data after clearing
       await _loadData();
       
-      // Notify other parts of the app about data clearing
-      SyncEventBus().notifySync();
       
       // Close loading dialog and show success message
       if (mounted) {

@@ -1,6 +1,5 @@
 import 'package:expensetrackify/config/widgets/custom_alert_dialog.dart';
 import 'package:expensetrackify/config/widgets/custom_input_dialog.dart';
-import 'package:expensetrackify/modules/ads/widgets/banner_ad_widget.dart';
 import 'package:expensetrackify/modules/dao/mode_dao.dart';
 import 'package:expensetrackify/config/database_config/database_service.dart';
 import 'package:expensetrackify/modules/settings/widget/empty_mode_category_widget.dart';
@@ -10,7 +9,6 @@ import 'package:expensetrackify/constants/colors.dart';
 import 'package:expensetrackify/constants/styles.dart';
 import 'package:expensetrackify/constants/app_constants.dart';
 import 'package:expensetrackify/constants/default_settings.dart';
-import 'package:expensetrackify/utils/sync_event_bus.dart';
 
 class ModesScreen extends StatefulWidget {
   const ModesScreen({super.key});
@@ -61,8 +59,6 @@ class _ModesScreenState extends State<ModesScreen> {
               ModesCompanion.insert(name: newModeName),
             );
             _loadModesAndDefault();
-            // Notify other screens about the data change
-            SyncEventBus().notifySync();
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(
@@ -93,8 +89,6 @@ class _ModesScreenState extends State<ModesScreen> {
           if (newModeName.isNotEmpty && newModeName != mode.name) {
             await _modeDao.updateMode(mode.copyWith(name: newModeName));
             _loadModesAndDefault();
-            // Notify other screens about the data change
-            SyncEventBus().notifySync();
             Navigator.of(context).pop();
             _editModeController.clear();
             ScaffoldMessenger.of(context).showSnackBar(
@@ -133,8 +127,6 @@ class _ModesScreenState extends State<ModesScreen> {
             Navigator.pop(context);
             await _modeDao.deleteMode(mode.id);
             _loadModesAndDefault();
-            // Notify other screens about the data change
-            SyncEventBus().notifySync();
             Navigator.of(context).pop();
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
@@ -222,12 +214,6 @@ class _ModesScreenState extends State<ModesScreen> {
                         );
                       },
                     ),
-          ),
-          // Banner Ad at the bottom
-          const BannerAdWidget(
-            height: 50,
-            margin: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-            showBorder: true,
           ),
         ],
       ),

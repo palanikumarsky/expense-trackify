@@ -3,7 +3,6 @@ import 'package:expensetrackify/modules/dao/category_dao.dart';
 import 'package:expensetrackify/modules/dao/mode_dao.dart';
 import 'package:expensetrackify/modules/dao/transaction_dao.dart';
 import 'package:expensetrackify/config/database_config/database_service.dart';
-import 'package:expensetrackify/modules/profile/auth_service/backup_service.dart';
 import 'package:flutter/material.dart';
 import 'package:expensetrackify/constants/colors.dart';
 import 'package:expensetrackify/constants/styles.dart';
@@ -31,8 +30,6 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
   final ModeDao _modeDao = ModeDao(appDatabase);
   final CategoryDao _categoryDao = CategoryDao(appDatabase);
   final TransactionDao _transactionDao = TransactionDao(appDatabase);
-  final SyncService _syncService = SyncService();
-
   List<Mode> _modes = [];
   Mode? _selectedMode;
   List<Category> _categories = [];
@@ -141,50 +138,17 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
         categoryId: _selectedCategory!.id,
         date: _selectedDate.toIso8601String(),
       );
-      
-      // If the transaction is synced, update Firebase first, then local DB
-      if (widget.transaction.isSynced) {
-        // Update Firebase first
-        final firebaseResult = await _syncService.updateTransactionInFirebase(
-          updatedTransaction,
-          _selectedMode!.name,
-          _selectedCategory!.name,
-        );
-        
-        if (firebaseResult.success) {
-          // Firebase update succeeded, now update local DB
-          await _transactionDao.updateTransaction(updatedTransaction);
-          
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('Transaction updated in local DB and cloud'),
-              backgroundColor: Colors.green,
-            ),
-          );
-          
-          Navigator.of(context).pop(updatedTransaction);
-        } else {
-          // Firebase update failed, don't update local DB
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('Failed to update in cloud: ${firebaseResult.message}. No changes made.'),
-              backgroundColor: Colors.red,
-            ),
-          );
-        }
-      } else {
-        // Transaction is not synced, only update local DB
-        await _transactionDao.updateTransaction(updatedTransaction);
-        
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Transaction updated in local database'),
-            backgroundColor: Colors.green,
-          ),
-        );
-        
-        Navigator.of(context).pop(updatedTransaction);
-      }
+
+      await _transactionDao.updateTransaction(updatedTransaction);
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Transaction updated successfully'),
+          backgroundColor: Colors.green,
+        ),
+      );
+
+      Navigator.of(context).pop(updatedTransaction);
     } catch (error) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(

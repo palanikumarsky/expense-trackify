@@ -11,7 +11,6 @@ import 'package:expensetrackify/modules/dao/transaction_dao.dart';
 import 'package:expensetrackify/utils/pref.dart';
 import 'package:expensetrackify/utils/transaction_helper.dart';
 import 'package:expensetrackify/constants/app_constants.dart';
-import 'package:expensetrackify/modules/profile/auth_service/backup_service.dart';
 
 class TransactionDetailScreen extends StatefulWidget {
   final Transaction transaction;
@@ -28,7 +27,6 @@ class _TransactionDetailScreenState extends State<TransactionDetailScreen> {
   final TransactionDao _transactionDao = TransactionDao(appDatabase);
   final ModeDao _modeDao = ModeDao(appDatabase);
   final CategoryDao _categoryDao = CategoryDao(appDatabase);
-  final SyncService _syncService = SyncService();
   String? _modeName;
   String? _categoryName;
 
@@ -84,62 +82,18 @@ class _TransactionDetailScreenState extends State<TransactionDetailScreen> {
           confirmText: AppConstants.delete,
           onConfirm: () async {
             try {
-              // If the transaction is synced, delete from Firebase first, then local DB
-              if (_transaction.isSynced) {
-                // Delete from Firebase first
-                final firebaseResult = await _syncService
-                    .deleteTransactionInFirebase(_transaction.id);
+              await _transactionDao.deleteTransaction(_transaction.id);
 
-                if (firebaseResult.success) {
-                  // Firebase delete succeeded, now delete from local DB
-                  await _transactionDao.deleteTransaction(_transaction.id);
+              Navigator.of(context).pop();
 
-                  // Close the dialog
-                  Navigator.of(context).pop();
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Transaction deleted successfully'),
+                  backgroundColor: Colors.green,
+                ),
+              );
 
-                  // Show success message
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(
-                        'Transaction deleted from local DB and cloud',
-                      ),
-                      backgroundColor: Colors.green,
-                    ),
-                  );
-
-                  // Navigate back to the previous screen
-                  Navigator.of(context).pop();
-                } else {
-                  // Firebase delete failed, don't delete from local DB
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(
-                        'Failed to delete from cloud: ${firebaseResult.message}. No changes made.',
-                      ),
-                      backgroundColor: Colors.red,
-                    ),
-                  );
-                }
-              } else {
-                // Transaction is not synced, only delete from local DB
-                await _transactionDao.deleteTransaction(_transaction.id);
-
-                // Close the dialog
-                Navigator.of(context).pop();
-
-                // Show success message
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(
-                      'Transaction deleted from local database',
-                    ),
-                    backgroundColor: Colors.green,
-                  ),
-                );
-
-                // Navigate back to the previous screen
-                Navigator.of(context).pop();
-              }
+              Navigator.of(context).pop();
             } catch (error) {
               // Close the dialog
               Navigator.of(context).pop();
@@ -155,105 +109,6 @@ class _TransactionDetailScreenState extends State<TransactionDetailScreen> {
           },
           confirmButtonColor: Colors.red,
         );
-        // return AlertDialog(
-        //   title: Text(
-        //     AppConstants.deleteTransaction,
-        //     style: TextStyles.deepPurpleBold18,
-        //   ),
-        //   content: Text(
-        //     AppConstants.deleteTransactionConfirmation,
-        //     style: TextStyles.deepPurpleMedium16,
-        //   ),
-        //   actions: [
-        //     TextButton(
-        //       onPressed: () {
-        //         Navigator.of(context).pop();
-        //       },
-        //       child: Text(
-        //         AppConstants.cancel,
-        //         style: TextStyles.deepPurpleBold16,
-        //       ),
-        //     ),
-        //     ElevatedButton(
-        //       onPressed: () async {
-        //         try {
-        //           // If the transaction is synced, delete from Firebase first, then local DB
-        //           if (_transaction.isSynced) {
-        //             // Delete from Firebase first
-        //             final firebaseResult = await _syncService
-        //                 .deleteTransactionInFirebase(_transaction.id);
-        //
-        //             if (firebaseResult.success) {
-        //               // Firebase delete succeeded, now delete from local DB
-        //               await _transactionDao.deleteTransaction(_transaction.id);
-        //
-        //               // Close the dialog
-        //               Navigator.of(context).pop();
-        //
-        //               // Show success message
-        //               ScaffoldMessenger.of(context).showSnackBar(
-        //                 SnackBar(
-        //                   content: Text(
-        //                     'Transaction deleted from local DB and cloud',
-        //                   ),
-        //                   backgroundColor: Colors.green,
-        //                 ),
-        //               );
-        //
-        //               // Navigate back to the previous screen
-        //               Navigator.of(context).pop();
-        //             } else {
-        //               // Firebase delete failed, don't delete from local DB
-        //               ScaffoldMessenger.of(context).showSnackBar(
-        //                 SnackBar(
-        //                   content: Text(
-        //                     'Failed to delete from cloud: ${firebaseResult.message}. No changes made.',
-        //                   ),
-        //                   backgroundColor: Colors.red,
-        //                 ),
-        //               );
-        //             }
-        //           } else {
-        //             // Transaction is not synced, only delete from local DB
-        //             await _transactionDao.deleteTransaction(_transaction.id);
-        //
-        //             // Close the dialog
-        //             Navigator.of(context).pop();
-        //
-        //             // Show success message
-        //             ScaffoldMessenger.of(context).showSnackBar(
-        //               SnackBar(
-        //                 content: Text(
-        //                   'Transaction deleted from local database',
-        //                 ),
-        //                 backgroundColor: Colors.green,
-        //               ),
-        //             );
-        //
-        //             // Navigate back to the previous screen
-        //             Navigator.of(context).pop();
-        //           }
-        //         } catch (error) {
-        //           // Close the dialog
-        //           Navigator.of(context).pop();
-        //
-        //           // Show error message
-        //           ScaffoldMessenger.of(context).showSnackBar(
-        //             SnackBar(
-        //               content: Text('Error deleting transaction: $error'),
-        //               backgroundColor: Colors.red,
-        //             ),
-        //           );
-        //         }
-        //       },
-        //       style: ElevatedButton.styleFrom(
-        //         backgroundColor: Colors.red,
-        //         foregroundColor: Colors.white,
-        //       ),
-        //       child: Text(AppConstants.delete),
-        //     ),
-        //   ],
-        // );
       },
     );
   }

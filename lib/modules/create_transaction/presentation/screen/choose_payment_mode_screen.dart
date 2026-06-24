@@ -3,10 +3,8 @@ import 'package:expensetrackify/config/widgets/custom_input_dialog.dart';
 import 'package:expensetrackify/constants/app_constants.dart';
 import 'package:expensetrackify/constants/colors.dart';
 import 'package:expensetrackify/constants/styles.dart';
-import 'package:expensetrackify/modules/ads/widgets/banner_ad_widget.dart';
 import 'package:expensetrackify/modules/dao/mode_dao.dart';
 import 'package:expensetrackify/utils/pref.dart';
-import 'package:expensetrackify/utils/sync_event_bus.dart';
 import 'package:flutter/material.dart';
 
 class ChoosePaymentModeScreen extends StatefulWidget {
@@ -45,8 +43,6 @@ class _ChoosePaymentModeScreenState extends State<ChoosePaymentModeScreen> {
             await _modeDao.createMode(
               ModesCompanion.insert(name: newModeName),
             );
-            // Notify other screens about the data change
-            SyncEventBus().notifySync();
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(
@@ -153,12 +149,6 @@ class _ChoosePaymentModeScreenState extends State<ChoosePaymentModeScreen> {
               },
               separatorBuilder: (context, index) => const SizedBox(height: 10),
             ),
-          ),
-          // Banner Ad at the bottom
-          const BannerAdWidget(
-            height: 50,
-            margin: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-            showBorder: true,
           ),
         ],
       ),

@@ -10,7 +10,6 @@ import 'package:expensetrackify/modules/settings/presentation/screen/settings_sc
 import 'package:flutter/material.dart';
 import 'package:expensetrackify/constants/colors.dart';
 import 'package:expensetrackify/constants/app_constants.dart';
-import 'package:expensetrackify/modules/ads/widgets/banner_ad_widget.dart';
 
 class CustomBottomNavigationBar extends StatefulWidget {
   final int selectedIndex;
@@ -55,21 +54,9 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Expanded(
-            child: IndexedStack(
-              index: _currentIndex,
-              children: _screens,
-            ),
-          ),
-          // Banner Ad at the bottom
-          const BannerAdWidget(
-            height: 50,
-            margin: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-            showBorder: true,
-          ),
-        ],
+      body: IndexedStack(
+        index: _currentIndex,
+        children: _screens,
       ),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(

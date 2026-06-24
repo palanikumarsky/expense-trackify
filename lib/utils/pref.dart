@@ -42,15 +42,12 @@ class Prefs {
   static const String _currencyCodeKey = 'currency_code';
 
   // Stream controller for user type changes
-  static final StreamController<String> _userTypeController = StreamController<String>.broadcast();
-  static Stream<String> get userTypeStream => _userTypeController.stream;
 
   // Stream controller for guest status changes
   static final StreamController<bool> _guestStatusController = StreamController<bool>.broadcast();
   static Stream<bool> get guestStatusStream => _guestStatusController.stream;
 
   // Current values cache
-  static String? _currentUserType;
   static bool? _currentGuestStatus;
 
   // Guest user status

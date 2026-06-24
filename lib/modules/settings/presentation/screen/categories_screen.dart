@@ -1,5 +1,4 @@
 import 'package:expensetrackify/config/widgets/custom_input_dialog.dart';
-import 'package:expensetrackify/modules/ads/widgets/banner_ad_widget.dart';
 import 'package:expensetrackify/modules/dao/category_dao.dart';
 import 'package:expensetrackify/config/database_config/database_service.dart';
 import 'package:expensetrackify/modules/settings/widget/category_card.dart';
@@ -9,7 +8,6 @@ import 'package:expensetrackify/constants/colors.dart';
 import 'package:expensetrackify/constants/styles.dart';
 import 'package:expensetrackify/constants/app_constants.dart';
 import 'package:expensetrackify/constants/default_settings.dart';
-import 'package:expensetrackify/utils/sync_event_bus.dart';
 
 class CategoriesScreen extends StatefulWidget {
   const CategoriesScreen({super.key});
@@ -60,8 +58,6 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
               CategoriesCompanion.insert(name: newCategoryName),
             );
             _loadCategories();
-            // Notify other screens about the data change
-            SyncEventBus().notifySync();
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(
@@ -117,8 +113,6 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                     category.copyWith(name: newCategoryName),
                   );
                   _loadCategories();
-                  // Notify other screens about the data change
-                  SyncEventBus().notifySync();
                   Navigator.of(context).pop();
                   _editCategoryController.clear();
                   ScaffoldMessenger.of(context).showSnackBar(
@@ -185,8 +179,6 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
               onPressed: () async {
                 await _categoryDao.deleteCategory(category.id);
                 _loadCategories();
-                // Notify other screens about the data change
-                SyncEventBus().notifySync();
                 Navigator.of(context).pop();
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
@@ -280,12 +272,6 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                         );
                       },
                     ),
-          ),
-          // Banner Ad at the bottom
-          const BannerAdWidget(
-            height: 50,
-            margin: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-            showBorder: true,
           ),
         ],
       ),

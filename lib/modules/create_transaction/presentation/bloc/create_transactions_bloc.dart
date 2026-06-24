@@ -55,7 +55,19 @@ class CreateTransactionsBloc
 
     final accounts = await expenseAccountDao.getExpensesAccounts();
     String? selectedAccount = await Prefs.getSelectedAccount;
-    int selectedAccountId = accounts.firstWhere((a) => a.name == selectedAccount).id;
+    final matchedAccount = accounts.cast<dynamic>().firstWhere(
+      (a) => a.name == selectedAccount,
+      orElse: () => accounts.isNotEmpty ? accounts.first : null,
+    );
+    if (matchedAccount == null) {
+      emit(FailureState(errorMessage: 'No accounts found. Please add an account first.'));
+      return;
+    }
+    if (selectedAccount == null || selectedAccount.isEmpty) {
+      selectedAccount = matchedAccount.name as String;
+      await Prefs.setSelectedAccount(selectedAccount);
+    }
+    int selectedAccountId = matchedAccount.id;
 
     emit(
       LoadedState(

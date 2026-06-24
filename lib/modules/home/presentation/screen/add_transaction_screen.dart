@@ -10,7 +10,6 @@ import 'package:expensetrackify/constants/app_constants.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:expensetrackify/utils/transaction_helper.dart';
-import 'package:expensetrackify/utils/sync_event_bus.dart';
 
 class AddTransactionScreen extends StatefulWidget {
   const AddTransactionScreen({super.key});
@@ -110,8 +109,6 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
           backgroundColor: Colors.green,
         ),
       );
-      // Notify other screens about the data change
-      SyncEventBus().notifySync();
       // Don't pop here - let the dialog handle navigation
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -149,8 +146,6 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
           backgroundColor: Colors.green,
         ),
       );
-      // Notify other screens about the data change
-      SyncEventBus().notifySync();
       // Don't pop here - let the dialog handle navigation
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(

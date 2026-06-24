@@ -7,7 +7,6 @@ import 'package:expensetrackify/modules/dao/transaction_dao.dart';
 import 'package:expensetrackify/modules/dao/mode_dao.dart';
 import 'package:expensetrackify/modules/dao/category_dao.dart';
 import 'package:expensetrackify/utils/pref.dart';
-import 'package:expensetrackify/utils/user_type_stream.dart';
 import 'package:flutter/material.dart';
 
 part 'home_event.dart';
@@ -41,7 +40,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   ) async {
     try {
       emit(HomeLoading());
-      final userType = userTypeStream.currentUserType;
       String? selectedAccount = await Prefs.getSelectedAccount;
       final accounts = await expenseAccountDao.getExpensesAccounts();
       int accountId = 0;
@@ -200,7 +198,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       final existingModes = await _modeDao.getModes();
       
       // Define default modes
-      final defaultModes = AppConstants.defaultModes;;
+      final defaultModes = AppConstants.defaultModes;
       
       // Check which default modes are missing
       final existingModeNames = existingModes.map((mode) => mode.name).toList();

@@ -1,7 +1,6 @@
 import 'package:expensetrackify/constants/app_constants.dart';
 import 'package:expensetrackify/constants/colors.dart';
 import 'package:expensetrackify/constants/styles.dart';
-import 'package:expensetrackify/modules/ads/widgets/banner_ad_widget.dart';
 import 'package:expensetrackify/utils/transaction_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:expensetrackify/utils/pref.dart';
@@ -67,11 +66,6 @@ class _CurrencyScreenState extends State<CurrencyScreen> {
                 );
               }).toList(),
             ),
-          ),
-          const BannerAdWidget(
-            height: 50,
-            margin: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-            showBorder: true,
           ),
         ],
       ),

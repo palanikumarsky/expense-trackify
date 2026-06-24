@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:expensetrackify/constants/colors.dart';
 import 'package:expensetrackify/constants/styles.dart';
 import 'package:expensetrackify/constants/app_constants.dart';
-import 'package:expensetrackify/modules/ads/widgets/banner_ad_widget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AccountsScreen extends StatefulWidget {
@@ -120,7 +119,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
               selectedAccount =
                   state.selectedAccount.isNotEmpty
                       ? state.selectedAccount
-                      : accountList[0].name;
+                      : accountList.isNotEmpty ? accountList[0].name : '';
             } else if (state is SelectAccountSuccess) {
               CustomProgressBar(context).hideLoadingIndicator();
               selectedAccount = state.selectedAccount;
@@ -181,11 +180,6 @@ class _AccountsScreenState extends State<AccountsScreen> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  const BannerAdWidget(
-                    height: 50,
-                    margin: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    showBorder: true,
-                  ),
                 ],
               );
             },
