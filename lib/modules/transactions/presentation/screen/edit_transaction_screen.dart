@@ -1,4 +1,5 @@
 import 'package:expensetrackify/config/widgets/custom_input_dialog.dart';
+import 'package:expensetrackify/utils/transaction_change_notifier.dart';
 import 'package:expensetrackify/modules/dao/category_dao.dart';
 import 'package:expensetrackify/modules/dao/mode_dao.dart';
 import 'package:expensetrackify/modules/dao/transaction_dao.dart';
@@ -140,6 +141,7 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
       );
 
       await _transactionDao.updateTransaction(updatedTransaction);
+      notifyTransactionChange();
 
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(

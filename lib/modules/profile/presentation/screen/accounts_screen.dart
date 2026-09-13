@@ -1,5 +1,6 @@
 import 'package:expensetrackify/config/database_config/database_service.dart';
 import 'package:expensetrackify/config/widgets/custom_input_dialog.dart';
+import 'package:expensetrackify/config/widgets/empty_state_widget.dart';
 import 'package:expensetrackify/config/widgets/custom_progress_bar.dart';
 import 'package:expensetrackify/modules/dao/expense_account_dao.dart';
 import 'package:expensetrackify/modules/profile/presentation/bloc/profile_bloc.dart';
@@ -190,24 +191,10 @@ class _AccountsScreenState extends State<AccountsScreen> {
   }
 
   Widget buildEmptyModelWidget() {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(Icons.folder_outlined, size: 64, color: Colors.grey[400]),
-          const SizedBox(height: 16),
-          Text('No account Found', style: TextStyles.blackBold18),
-          const SizedBox(height: 8),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 32),
-            child: Text(
-              'No expense account found in your local database.',
-              style: TextStyles.blackRegular14,
-              textAlign: TextAlign.center,
-            ),
-          ),
-        ],
-      ),
+    return const EmptyStateWidget(
+      icon: Icons.account_balance_wallet_outlined,
+      title: 'No accounts yet',
+      subtitle: 'Add an account to start organising your expenses',
     );
   }
 

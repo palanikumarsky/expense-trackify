@@ -7,6 +7,7 @@ import 'package:expensetrackify/constants/styles.dart';
 import 'package:expensetrackify/constants/colors.dart';
 import 'package:intl/intl.dart';
 import 'package:expensetrackify/constants/app_constants.dart';
+import 'package:expensetrackify/config/widgets/empty_state_widget.dart';
 
 class DetailedTransactions extends StatelessWidget {
   final List<TransactionWithDetails> allTransactions;
@@ -29,33 +30,10 @@ class DetailedTransactions extends StatelessWidget {
   }
 
   Widget buildNoTransaction() {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            Icons.receipt_long,
-            size: 80,
-            color: AppColors.deepPurpleColor.withOpacity(0.5),
-          ),
-          const SizedBox(height: 16),
-          Text(
-            AppConstants.noTransactionsFound,
-            style: TextStyles.deepPurpleBold18,
-          ),
-          const SizedBox(height: 8),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 32.0),
-            child: Text(
-              AppConstants.tapPlusButtonToAddFirstTransaction,
-              style: TextStyles.deepPurpleMedium16.copyWith(
-                color: AppColors.deepPurpleColor.withOpacity(0.7),
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ),
-        ],
-      ),
+    return const EmptyStateWidget(
+      icon: Icons.receipt_long_outlined,
+      title: 'No transactions yet',
+      subtitle: 'Tap the + button to add your first transaction',
     );
   }
 

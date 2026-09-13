@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:expensetrackify/config/database_config/database_service.dart';
+import 'package:expensetrackify/utils/transaction_change_notifier.dart';
 import 'package:expensetrackify/config/widgets/custom_progress_bar.dart';
 import 'package:expensetrackify/modules/calendar/presentation/bloc/calendar_bloc.dart';
 import 'package:expensetrackify/modules/dao/transaction_dao.dart';
@@ -23,6 +24,23 @@ class _CalendarScreenNewState extends State<CalendarScreenNew> {
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
   Map<DateTime, List<TransactionWithDetails>> _events = {};
+  CalendarBloc? _calendarBloc;
+
+  @override
+  void initState() {
+    super.initState();
+    transactionChangeNotifier.addListener(_onTransactionChange);
+  }
+
+  @override
+  void dispose() {
+    transactionChangeNotifier.removeListener(_onTransactionChange);
+    super.dispose();
+  }
+
+  void _onTransactionChange() {
+    _calendarBloc?.add(RefreshCalendarEvents());
+  }
 
   void _onDayDoubleTapped(BuildContext context, DateTime selectedDay) {
     Navigator.push(
@@ -37,7 +55,10 @@ class _CalendarScreenNewState extends State<CalendarScreenNew> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<CalendarBloc>(
-      create: (context) => CalendarBloc()..add(LoadCalendarEvents()),
+      create: (context) {
+        _calendarBloc = CalendarBloc()..add(LoadCalendarEvents());
+        return _calendarBloc!;
+      },
       child: BlocListener<CalendarBloc, CalendarState>(
         listener: (context, state) {
           // TODO: implement listener

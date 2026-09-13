@@ -7,7 +7,7 @@ import 'package:expensetrackify/modules/dao/transaction_dao.dart';
 import 'package:expensetrackify/modules/home/presentation/bloc/home_bloc.dart';
 import 'package:expensetrackify/modules/home/widgets/date_range_selector.dart';
 import 'package:expensetrackify/modules/home/presentation/screen/summary_view.dart';
-
+import 'package:expensetrackify/utils/transaction_change_notifier.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -19,6 +19,23 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   List<TransactionWithDetails> transactions = [];
   HomeBloc? _homeBloc;
+
+  @override
+  void initState() {
+    super.initState();
+    transactionChangeNotifier.addListener(_onTransactionChange);
+  }
+
+  @override
+  void dispose() {
+    transactionChangeNotifier.removeListener(_onTransactionChange);
+    super.dispose();
+  }
+
+  void _onTransactionChange() {
+    _homeBloc?.add(const LoadTransactions());
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(

@@ -2,7 +2,7 @@ import 'package:expensetrackify/config/widgets/custom_input_dialog.dart';
 import 'package:expensetrackify/modules/dao/category_dao.dart';
 import 'package:expensetrackify/config/database_config/database_service.dart';
 import 'package:expensetrackify/modules/settings/widget/category_card.dart';
-import 'package:expensetrackify/modules/settings/widget/empty_mode_category_widget.dart';
+import 'package:expensetrackify/config/widgets/empty_state_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:expensetrackify/constants/colors.dart';
 import 'package:expensetrackify/constants/styles.dart';
@@ -257,7 +257,11 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
           Expanded(
             child:
                 _categories.isEmpty
-                    ? EmptyModeCategoryWidget(screenType: AppConstants.category)
+                    ? const EmptyStateWidget(
+                        icon: Icons.label_outline,
+                        title: 'No categories yet',
+                        subtitle: 'Tap the + button to add your first category',
+                      )
                     : ListView.builder(
                       itemCount: _categories.length,
                       itemBuilder: (context, index) {

@@ -1,4 +1,5 @@
 import 'package:expensetrackify/modules/bottom_navigation_bar/bottom_navigation_bar.dart';
+import 'package:expensetrackify/utils/transaction_change_notifier.dart';
 import 'package:expensetrackify/modules/create_transaction/presentation/screen/change_account_screen.dart';
 import 'package:expensetrackify/modules/create_transaction/presentation/screen/choose_category_screen.dart';
 import 'package:expensetrackify/modules/create_transaction/presentation/screen/choose_payment_mode_screen.dart';
@@ -52,6 +53,7 @@ class _CreateTransactionScreenState extends State<CreateTransactionScreen> {
         child: BlocListener<CreateTransactionsBloc, CreateTransactionsState>(
           listener: (context, state) {
             if (state is TransactionSaved) {
+              notifyTransactionChange();
               // Show success message
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(

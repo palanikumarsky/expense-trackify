@@ -2,7 +2,7 @@ import 'package:expensetrackify/config/widgets/custom_alert_dialog.dart';
 import 'package:expensetrackify/config/widgets/custom_input_dialog.dart';
 import 'package:expensetrackify/modules/dao/mode_dao.dart';
 import 'package:expensetrackify/config/database_config/database_service.dart';
-import 'package:expensetrackify/modules/settings/widget/empty_mode_category_widget.dart';
+import 'package:expensetrackify/config/widgets/empty_state_widget.dart';
 import 'package:expensetrackify/modules/settings/widget/payment_mode_card.dart';
 import 'package:flutter/material.dart';
 import 'package:expensetrackify/constants/colors.dart';
@@ -199,7 +199,11 @@ class _ModesScreenState extends State<ModesScreen> {
           Expanded(
             child:
                 _modes.isEmpty
-                    ? EmptyModeCategoryWidget(screenType: AppConstants.mode,)
+                    ? const EmptyStateWidget(
+                        icon: Icons.credit_card_outlined,
+                        title: 'No payment modes yet',
+                        subtitle: 'Tap the + button to add your first payment mode',
+                      )
                     : ListView.builder(
                       itemCount: _modes.length,
                       itemBuilder: (context, index) {

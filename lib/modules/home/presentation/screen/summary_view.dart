@@ -14,6 +14,7 @@ import 'package:share_plus/share_plus.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:expensetrackify/utils/transaction_helper.dart';
 import 'package:expensetrackify/utils/pref.dart';
+import 'package:expensetrackify/config/widgets/empty_state_widget.dart';
 
 class SummaryView extends StatefulWidget {
   final List<TransactionWithDetails> transactions;
@@ -128,32 +129,10 @@ class _SummaryViewState extends State<SummaryView> {
   Widget build(BuildContext context) {
     final transactions = widget.transactions;
     if (transactions.isEmpty) {
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Icon(
-            Icons.summarize,
-            size: 80,
-            color: AppColors.deepPurpleColor.withOpacity(0.5),
-          ),
-          const SizedBox(height: 16),
-          Text(
-            AppConstants.noTransactionsFound,
-            style: TextStyles.deepPurpleBold18,
-          ),
-          const SizedBox(height: 8),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 32.0),
-            child: Text(
-              AppConstants.addTransactionToSeeSummary,
-              style: TextStyles.deepPurpleMedium16.copyWith(
-                color: AppColors.deepPurpleColor.withOpacity(0.7),
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ),
-        ],
+      return const EmptyStateWidget(
+        icon: Icons.bar_chart_outlined,
+        title: 'No data to show',
+        subtitle: 'Add a transaction to see your spending summary here',
       );
     }
 

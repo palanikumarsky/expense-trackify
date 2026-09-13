@@ -6,6 +6,8 @@ import 'package:expensetrackify/constants/styles.dart';
 import 'package:expensetrackify/config/database_config/database_service.dart';
 import 'package:expensetrackify/utils/pref.dart';
 import 'package:expensetrackify/utils/transaction_helper.dart';
+import 'package:expensetrackify/config/widgets/empty_state_widget.dart';
+import 'package:expensetrackify/utils/transaction_change_notifier.dart';
 import 'package:intl/intl.dart';
 
 class CalendarDayDetailScreen extends StatefulWidget {
@@ -27,6 +29,13 @@ class _CalendarDayDetailScreenState extends State<CalendarDayDetailScreen> {
   void initState() {
     super.initState();
     _loadTransactionsForDay();
+    transactionChangeNotifier.addListener(_loadTransactionsForDay);
+  }
+
+  @override
+  void dispose() {
+    transactionChangeNotifier.removeListener(_loadTransactionsForDay);
+    super.dispose();
   }
 
   Future<void> _loadTransactionsForDay() async {
@@ -162,24 +171,11 @@ class _CalendarDayDetailScreenState extends State<CalendarDayDetailScreen> {
                   Expanded(
                     child:
                         _transactions.isEmpty
-                            ? Center(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.event_busy,
-                                    size: 64,
-                                    color: AppColors.deepPurpleColor
-                                        .withOpacity(0.5),
-                                  ),
-                                  const SizedBox(height: 16),
-                                  Text(
-                                    '${AppConstants.noTransactionsFor} ${DateFormat('MMM d, yyyy').format(widget.selectedDate)}',
-                                    style: TextStyles.deepPurpleMedium16,
-                                  ),
-                                ],
-                              ),
-                            )
+                            ? EmptyStateWidget(
+                                icon: Icons.event_busy_outlined,
+                                title: 'No transactions',
+                                subtitle: 'Nothing recorded for ${DateFormat('MMM d, yyyy').format(widget.selectedDate)}',
+                              )
                             : ListView.separated(
                               padding: const EdgeInsets.symmetric(
                                 horizontal: 16,

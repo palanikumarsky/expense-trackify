@@ -11,6 +11,7 @@ import 'package:expensetrackify/modules/dao/transaction_dao.dart';
 import 'package:expensetrackify/utils/pref.dart';
 import 'package:expensetrackify/utils/transaction_helper.dart';
 import 'package:expensetrackify/constants/app_constants.dart';
+import 'package:expensetrackify/utils/transaction_change_notifier.dart';
 
 class TransactionDetailScreen extends StatefulWidget {
   final Transaction transaction;
@@ -83,6 +84,7 @@ class _TransactionDetailScreenState extends State<TransactionDetailScreen> {
           onConfirm: () async {
             try {
               await _transactionDao.deleteTransaction(_transaction.id);
+              notifyTransactionChange();
 
               Navigator.of(context).pop();
 
